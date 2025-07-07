@@ -68,11 +68,11 @@ export const chatService = {
         ]
       };
 
-      const response = await apperClient.getRecordById('chat', id, params);
+const response = await apperClient.getRecordById('chat', id, params);
 
       if (!response.success) {
-        console.error(response.message);
-        toast.error(response.message);
+        // Record doesn't exist - this is expected behavior, not an error
+        console.log(`Chat with ID ${id} not found`);
         return null;
       }
 
