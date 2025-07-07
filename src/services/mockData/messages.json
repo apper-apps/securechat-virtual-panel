@@ -1,0 +1,134 @@
+[
+  {
+    "Id": 1,
+    "id": "msg-1",
+    "chatId": "1",
+    "senderId": "user-2",
+    "content": "Hey! How's your day going?",
+    "timestamp": 1704067200000,
+    "status": "read",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 2,
+    "id": "msg-2",
+    "chatId": "1",
+    "senderId": "user-1",
+    "content": "Pretty good! Just finished a big project. How about you?",
+    "timestamp": 1704067500000,
+    "status": "delivered",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 3,
+    "id": "msg-3",
+    "chatId": "1",
+    "senderId": "user-2",
+    "content": "That's awesome! I'm working on something exciting too. Want to hear about it?",
+    "timestamp": 1704067800000,
+    "status": "sent",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 4,
+    "id": "msg-4",
+    "chatId": "2",
+    "senderId": "user-1",
+    "content": "The meeting is scheduled for 3 PM tomorrow",
+    "timestamp": 1704053800000,
+    "status": "delivered",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 5,
+    "id": "msg-5",
+    "chatId": "2",
+    "senderId": "user-3",
+    "content": "Perfect! I'll have the presentation ready by then.",
+    "timestamp": 1704054100000,
+    "status": "read",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 6,
+    "id": "msg-6",
+    "chatId": "3",
+    "senderId": "user-4",
+    "content": "Thanks for helping me with the project!",
+    "timestamp": 1704040400000,
+    "status": "read",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 7,
+    "id": "msg-7",
+    "chatId": "3",
+    "senderId": "user-1",
+    "content": "No problem! Always happy to help. Let me know if you need anything else.",
+    "timestamp": 1704040700000,
+    "status": "delivered",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 8,
+    "id": "msg-8",
+    "chatId": "4",
+    "senderId": "user-5",
+    "content": "Let's grab coffee tomorrow!",
+    "timestamp": 1704027000000,
+    "status": "delivered",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 9,
+    "id": "msg-9",
+    "chatId": "5",
+    "senderId": "user-1",
+    "content": "See you at the conference next week",
+    "timestamp": 1704013600000,
+    "status": "sent",
+    "selfDestruct": null,
+    "type": "text"
+  },
+  {
+    "Id": 10,
+    "id": "msg-10",
+    "chatId": "6",
+    "senderId": "user-7",
+    "content": "The encrypted file has been sent securely",
+    "timestamp": 1704000000000,
+    "status": "read",
+    "selfDestruct": 300,
+    "type": "text"
+  },
+  {
+    "Id": 11,
+    "id": "msg-11",
+    "chatId": "6",
+    "senderId": "user-1",
+    "content": "Received! This message will self-destruct in 5 minutes.",
+    "timestamp": 1704000300000,
+    "status": "delivered",
+    "selfDestruct": 300,
+    "type": "text"
+  },
+  {
+    "Id": 12,
+    "id": "msg-12",
+    "chatId": "1",
+    "senderId": "user-1",
+    "content": "Absolutely! Tell me all about it.",
+    "timestamp": 1704068100000,
+    "status": "sending",
+    "selfDestruct": null,
+    "type": "text"
+  }
+]
