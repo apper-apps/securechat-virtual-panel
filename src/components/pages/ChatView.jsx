@@ -34,12 +34,22 @@ const ChatView = () => {
     }
   };
 
-  const loadMessages = async () => {
+const loadMessages = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const messagesData = await messageService.getByChatId(chatId);
-      setMessages(messagesData);
+      setMessages(messagesData || []);
+      if (!messagesData || messagesData.length === 0) {
+        console.log(`No messages found for chat ${chatId}`);
+      }
     } catch (err) {
       console.error('Failed to load messages:', err);
+      setError('Failed to load messages. Please try again.');
+      toast.error('Failed to load messages');
+      setMessages([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,8 +86,8 @@ const optimisticMessage = {
       // Add optimistic message to UI
       setMessages(prev => [...prev, optimisticMessage]);
 
-      // Send message to backend
-const newMessage = await messageService.create({
+// Send message to backend
+      const newMessage = await messageService.create({
         chat_id: chatId,
         sender_id: currentUserId,
         content: content || '',
@@ -93,7 +103,7 @@ const newMessage = await messageService.create({
       toast.success(file ? 'File sent' : 'Message sent');
     } catch (err) {
       // Remove optimistic message on error
-      setMessages(prev => prev.filter(msg => msg.id !== `temp-${Date.now()}`));
+      setMessages(prev => prev.filter(msg => msg.id !== optimisticMessage.id));
       toast.error(file ? 'Failed to send file' : 'Failed to send message');
     } finally {
       setSendingMessage(false);
