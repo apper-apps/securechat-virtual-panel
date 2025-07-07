@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/atoms/Button';
 import ApperIcon from '@/components/ApperIcon';
+import { AuthContext } from '../../App';
 
 const Header = ({ title, showBackButton = false, actions = [] }) => {
   const navigate = useNavigate();
+  const authMethods = useContext(AuthContext);
 
   return (
     <motion.header
@@ -28,22 +31,29 @@ const Header = ({ title, showBackButton = false, actions = [] }) => {
             {title}
           </h1>
         </div>
-        
-        {actions.length > 0 && (
-          <div className="flex items-center space-x-2">
-            {actions.map((action, index) => (
-              <Button
-                key={index}
-                variant="ghost"
-                size="sm"
-                onClick={action.onClick}
-                className="p-2"
-              >
-                <ApperIcon name={action.icon} className="w-5 h-5" />
-              </Button>
-            ))}
-          </div>
-        )}
+<div className="flex items-center space-x-2">
+          {actions.length > 0 && actions.map((action, index) => (
+            <Button
+              key={index}
+              variant="ghost"
+              size="sm"
+              onClick={action.onClick}
+              className="p-2"
+            >
+              <ApperIcon name={action.icon} className="w-5 h-5" />
+            </Button>
+          ))}
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={authMethods?.logout}
+            className="p-2"
+            title="Logout"
+          >
+            <ApperIcon name="LogOut" className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
     </motion.header>
   );

@@ -62,10 +62,10 @@ const handleSendMessage = async (content, file = null) => {
       }
       
       // Create optimistic message
-      const optimisticMessage = {
+const optimisticMessage = {
         id: `temp-${Date.now()}`,
-        chatId,
-        senderId: currentUserId,
+        chat_id: chatId,
+        sender_id: currentUserId,
         content: content || (fileData ? fileData.name : ''),
         timestamp: Date.now(),
         status: 'sending',
@@ -77,9 +77,9 @@ const handleSendMessage = async (content, file = null) => {
       setMessages(prev => [...prev, optimisticMessage]);
 
       // Send message to backend
-      const newMessage = await messageService.create({
-        chatId,
-        senderId: currentUserId,
+const newMessage = await messageService.create({
+        chat_id: chatId,
+        sender_id: currentUserId,
         content: content || '',
         type: optimisticMessage.type,
         file: fileData
