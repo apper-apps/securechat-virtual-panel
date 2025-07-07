@@ -24,7 +24,7 @@ export const messageService = {
     return message;
   },
 
-  async create(data) {
+async create(data) {
     await delay(300);
     const newMessage = {
       Id: Math.max(...messages.map(m => m.Id)) + 1,
@@ -35,7 +35,10 @@ export const messageService = {
       timestamp: Date.now(),
       status: 'delivered',
       selfDestruct: data.selfDestruct || null,
-      type: data.type || 'text'
+      type: data.type || 'text',
+      file: data.file || null,
+      reactions: [],
+      edited: false
     };
     messages.push(newMessage);
     return newMessage;

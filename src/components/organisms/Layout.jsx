@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/services/auth/AuthContext';
 import NavigationTabs from '@/components/organisms/NavigationTabs';
 import Header from '@/components/organisms/Header';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
-
 const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -18,6 +19,8 @@ const Layout = ({ children }) => {
         return 'Contacts';
       case '/settings':
         return 'Settings';
+      case '/2fa-setup':
+        return 'Two-Factor Authentication';
       default:
         if (location.pathname.startsWith('/chat/')) {
           return 'Chat';

@@ -19,14 +19,18 @@ export const contactService = {
     return contact;
   },
 
-  async create(data) {
+async create(data) {
     await delay(250);
     const newContact = {
       Id: Math.max(...contacts.map(c => c.Id)) + 1,
+      id: `user-${Math.max(...contacts.map(c => c.Id)) + 1}`,
       name: data.name,
       avatar: data.avatar || null,
       status: data.status || 'offline',
-      lastSeen: Date.now()
+      lastSeen: Date.now(),
+      phone: data.phone || null,
+      email: data.email || null,
+      publicKey: data.publicKey || null
     };
     contacts.push(newContact);
     return newContact;

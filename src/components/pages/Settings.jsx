@@ -1,17 +1,23 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/services/auth/AuthContext';
+import { backupService } from '@/services/api/backupService';
 import Button from '@/components/atoms/Button';
 import ApperIcon from '@/components/ApperIcon';
-
 const Settings = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
   const settingsCategories = [
     {
       title: 'Privacy & Security',
       items: [
         { icon: 'Lock', label: 'End-to-End Encryption', description: 'All messages are encrypted', action: 'enabled' },
         { icon: 'Timer', label: 'Self-Destructing Messages', description: 'Configure default timer', action: 'configure' },
-        { icon: 'Shield', label: 'Two-Factor Authentication', description: 'Add extra security', action: 'setup' },
+        { icon: 'Shield', label: 'Two-Factor Authentication', description: user?.twoFactorEnabled ? 'Enabled' : 'Add extra security', action: user?.twoFactorEnabled ? 'enabled' : 'setup' },
         { icon: 'Eye', label: 'Screen Security', description: 'Prevent screenshots', action: 'toggle' },
+        { icon: 'Smartphone', label: 'Device Management', description: 'Manage connected devices', action: 'manage-devices' },
       ]
     },
     {
@@ -22,12 +28,13 @@ const Settings = () => {
         { icon: 'Moon', label: 'Quiet Hours', description: 'Disable notifications during set times', action: 'configure' },
       ]
     },
-    {
+{
       title: 'Chat Settings',
       items: [
         { icon: 'Palette', label: 'Themes', description: 'Customize app appearance', action: 'configure' },
         { icon: 'Download', label: 'Auto-Download Media', description: 'Automatically download images/videos', action: 'toggle' },
-        { icon: 'Archive', label: 'Chat Backup', description: 'Backup conversations to cloud', action: 'setup' },
+        { icon: 'Archive', label: 'Chat Backup', description: 'Backup conversations to cloud', action: 'backup' },
+        { icon: 'Users', label: 'Group Chats', description: 'Manage group chat settings', action: 'configure' },
       ]
     },
     {
@@ -36,20 +43,49 @@ const Settings = () => {
         { icon: 'User', label: 'Profile', description: 'Edit your profile information', action: 'edit' },
         { icon: 'Users', label: 'Blocked Users', description: 'Manage blocked contacts', action: 'manage' },
         { icon: 'Trash2', label: 'Delete Account', description: 'Permanently delete your account', action: 'danger' },
+{ icon: 'LogOut', label: 'Sign Out', description: 'Sign out of your account', action: 'logout' },
       ]
     }
   ];
-
-  const handleSettingClick = (item) => {
+const handleSettingClick = async (item) => {
     switch (item.action) {
       case 'enabled':
-        toast.info('End-to-end encryption is always enabled');
+        if (item.label === 'Two-Factor Authentication') {
+          toast.info('Two-factor authentication is already enabled');
+        } else {
+          toast.info('End-to-end encryption is always enabled');
+        }
+        break;
+      case 'setup':
+        if (item.label === 'Two-Factor Authentication') {
+          navigate('/2fa-setup');
+        } else {
+          toast.info(`${item.label} setup will be available soon`);
+        }
+        break;
+      case 'backup':
+        try {
+          toast.info('Creating backup...');
+          await backupService.createBackup({
+            type: 'full',
+            chatCount: 10,
+            messageCount: 150
+          });
+          toast.success('Backup created successfully');
+        } catch (err) {
+          toast.error('Failed to create backup');
+        }
+        break;
+      case 'manage-devices':
+        toast.info('Device management coming soon');
+        break;
+      case 'logout':
+        if (confirm('Are you sure you want to sign out?')) {
+          await logout();
+        }
         break;
       case 'configure':
         toast.info(`${item.label} configuration coming soon`);
-        break;
-      case 'setup':
-        toast.info(`${item.label} setup will be available soon`);
         break;
       case 'toggle':
         toast.success(`${item.label} toggled`);

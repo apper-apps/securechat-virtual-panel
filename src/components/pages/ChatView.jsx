@@ -8,7 +8,7 @@ import Loading from '@/components/ui/Loading';
 import Error from '@/components/ui/Error';
 import { chatService } from '@/services/api/chatService';
 import { messageService } from '@/services/api/messageService';
-
+import { fileService } from '@/services/api/fileService';
 const ChatView = () => {
   const { chatId } = useParams();
   const [chat, setChat] = useState(null);
@@ -50,21 +50,27 @@ const ChatView = () => {
     }
   }, [chatId]);
 
-  const handleSendMessage = async (content) => {
-    if (!content.trim() || sendingMessage) return;
+const handleSendMessage = async (content, file = null) => {
+    if ((!content.trim() && !file) || sendingMessage) return;
 
     try {
       setSendingMessage(true);
+      
+      let fileData = null;
+      if (file) {
+        fileData = await fileService.upload(file, chatId);
+      }
       
       // Create optimistic message
       const optimisticMessage = {
         id: `temp-${Date.now()}`,
         chatId,
         senderId: currentUserId,
-        content,
+        content: content || (fileData ? fileData.name : ''),
         timestamp: Date.now(),
         status: 'sending',
-        type: 'text'
+        type: file ? (file.type.startsWith('image/') ? 'image' : 'file') : 'text',
+        file: fileData
       };
 
       // Add optimistic message to UI
@@ -74,8 +80,9 @@ const ChatView = () => {
       const newMessage = await messageService.create({
         chatId,
         senderId: currentUserId,
-        content,
-        type: 'text'
+        content: content || '',
+        type: optimisticMessage.type,
+        file: fileData
       });
 
       // Replace optimistic message with real message
@@ -83,11 +90,11 @@ const ChatView = () => {
         msg.id === optimisticMessage.id ? newMessage : msg
       ));
 
-      toast.success('Message sent');
+      toast.success(file ? 'File sent' : 'Message sent');
     } catch (err) {
       // Remove optimistic message on error
       setMessages(prev => prev.filter(msg => msg.id !== `temp-${Date.now()}`));
-      toast.error('Failed to send message');
+      toast.error(file ? 'Failed to send file' : 'Failed to send message');
     } finally {
       setSendingMessage(false);
     }

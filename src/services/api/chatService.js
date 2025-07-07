@@ -25,16 +25,19 @@ export const chatService = {
     };
   },
 
-  async create(data) {
+async create(data) {
     await delay(250);
     const newChat = {
       Id: Math.max(...chats.map(c => c.Id)) + 1,
+      id: (Math.max(...chats.map(c => c.Id)) + 1).toString(),
       participants: data.participants || [],
       lastMessage: null,
       unreadCount: 0,
       type: data.type || 'private',
       theme: data.theme || 'default',
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      maxMembers: data.type === 'group' ? 100000 : 2,
+      memberCount: data.participants?.length || 0
     };
     chats.push(newChat);
     return newChat;
