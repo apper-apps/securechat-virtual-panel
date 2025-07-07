@@ -61,10 +61,10 @@ const ChatMessageList = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             layout
-          >
+>
             <MessageBubble
               message={message}
-              isOwnMessage={message.senderId === currentUserId}
+              isOwnMessage={message.sender_id === currentUserId}
               onDelete={onDeleteMessage}
             />
           </motion.div>

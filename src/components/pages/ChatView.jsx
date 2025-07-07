@@ -71,9 +71,9 @@ const handleSendMessage = async (content, file = null) => {
         fileData = await fileService.upload(file, chatId);
       }
       
-      // Create optimistic message
-const optimisticMessage = {
-        id: `temp-${Date.now()}`,
+// Create optimistic message
+      const optimisticMessage = {
+        Id: `temp-${Date.now()}`,
         chat_id: chatId,
         sender_id: currentUserId,
         content: content || (fileData ? fileData.name : ''),
@@ -95,15 +95,15 @@ const optimisticMessage = {
         file: fileData
       });
 
-      // Replace optimistic message with real message
+// Replace optimistic message with real message
       setMessages(prev => prev.map(msg => 
-        msg.id === optimisticMessage.id ? newMessage : msg
+        msg.Id === optimisticMessage.Id ? newMessage : msg
       ));
 
       toast.success(file ? 'File sent' : 'Message sent');
     } catch (err) {
-      // Remove optimistic message on error
-      setMessages(prev => prev.filter(msg => msg.id !== optimisticMessage.id));
+// Remove optimistic message on error
+      setMessages(prev => prev.filter(msg => msg.Id !== optimisticMessage.Id));
       toast.error(file ? 'Failed to send file' : 'Failed to send message');
     } finally {
       setSendingMessage(false);
@@ -112,8 +112,8 @@ const optimisticMessage = {
 
   const handleDeleteMessage = async (messageId) => {
     try {
-      await messageService.delete(messageId);
-      setMessages(prev => prev.filter(msg => msg.id !== messageId));
+await messageService.delete(messageId);
+      setMessages(prev => prev.filter(msg => msg.Id !== messageId));
       toast.success('Message deleted');
     } catch (err) {
       toast.error('Failed to delete message');
